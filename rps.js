@@ -7,7 +7,7 @@ function getComputerChoiceRandom () {
 }
 
 // returns counter to user's last played object
-function getComputerChoiceLastCounter (lastPicked) {
+function getComputerChoiceLastCounter () {
     if (lastPicked == 1) {
         return 2;
     } else if (lastPicked == 2) {
@@ -19,25 +19,53 @@ function getComputerChoiceLastCounter (lastPicked) {
     }
 }
 
+// the next thing is very WIP, probably won't work
+// records user plays 2 turns ago
+function userRecord (input) {
+    let input
+    if (input = 1) {
+        userPastPlays = userPastPlays + "1";
+    } else if (input = 2) {
+        userPastPlays = userPastPlays + "2";
+    } else if (input = 3) {
+        userPastPlays = userPastPlays + "3";
+    } else {
+        userPastPlays = "";
+    }
+}
+
+// reads behavior of user when reacting to wins or losses
+function userBehavior (winOrLoss){
+    let winOrLoss;
+    let userPlay = lastPicked;
+    let pastRound = i - 1;
+    if (winOrLoss = "w" && userPastPlays.slice(pastRound, i + 1) == userPlay) {
+        return "s"
+    }
+}
+
 // runs one round of RPS
 function rockPaperScissors (playerSelection, computerSelection) {
     // 1 = rock, 2 = paper, 3 = scissors
     if ((computerSelection === 1 && playerSelection === "rock") ||
     (computerSelection === 2 && playerSelection === "paper") ||
     (computerSelection === 3 && playerSelection === "scissors")) {
+        lastPicked = lastPlayed(playerSelection);
+        roundResult = "t";
         return ("It was a tie! The computer picked " + computerSelection + " and you picked " + playerSelection +".");
-        let lastPicked = lastPlayed(computerSelection);
     } else if ((playerSelection === "rock" && computerSelection == 2 ||
     (playerSelection === "paper" && computerSelection === 3) ||
     (playerSelection === "scissors" && computerSelection === 1))) {
         computerWins++;
-        let lastPicked = lastPlayed(computerSelection);
+        lastPicked = lastPlayed(playerSelection);
+        roundResult = "l";
         return ("You lose! The computer picked " + computerSelection + " and you picked " + playerSelection +".");
     } else if ((playerSelection === "paper" && computerSelection === 1) ||
     (playerSelection === "scissors" && computerSelection === 2) ||
     (playerSelection === "rock" && computerSelection === 3)) {
         playerWins++
-        let lastPicked = lastPlayed(computerSelection);
+        lastPicked = lastPlayed(playerSelection);
+        roundResult = "w";
         return ("You win! The computer picked " + computerSelection + " and you picked " + playerSelection +".");
     } else {
         console.log("The values were " + computerSelection + " and " + playerSelection);
@@ -48,11 +76,13 @@ function rockPaperScissors (playerSelection, computerSelection) {
 function runRound () {
     for (let i = 0; i < 10; i++) {
       if (i = 0) {
+            let computerPick = getComputerChoiceRandom();
             let playerSelection = prompt("Enter 'rock', 'paper', or 'scissors'!").toLowerCase();
-            console.log(rockPaperScissors(playerSelection, getComputerChoiceRandom()))
+            console.log(rockPaperScissors(playerSelection, computerPick))
        } else {
-            let playerSelection = prompt("Enter 'rock', 'paper', or 'scissors'!").toLowerCase();
-            console.log(rockPaperScissors(playerSelection, getComputerChoiceLastCounter()))
+            computerPick = getComputerChoiceLastCounter();
+            playerSelection = prompt("Enter 'rock', 'paper', or 'scissors'!").toLowerCase();
+            console.log(rockPaperScissors(playerSelection, computerPick))
         }
         if (playerWins > computerWins) {
             console.log("The score is " + playerWins + " to " + computerWins + ". You're in the lead!")
@@ -87,4 +117,8 @@ function lastPlayed (input){
 
 let playerWins = 0;
 let computerWins = 0;
+let lastPicked;
+let roundResult;
+let userPastPlays = " ";
 console.log(runRound());
+console.log("Thanks for playing!");
