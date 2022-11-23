@@ -22,28 +22,46 @@ function getComputerChoiceLastCounter () {
 // the next thing is very WIP, probably won't work
 // records user plays 2 turns ago
 function userRecord (input) {
-    let input
-    if (input = 1) {
+    if (input === 1) {
         userPastPlays = userPastPlays + "1";
-    } else if (input = 2) {
+    } else if (input === 2) {
         userPastPlays = userPastPlays + "2";
-    } else if (input = 3) {
+    } else if (input === 3) {
         userPastPlays = userPastPlays + "3";
     } else {
         userPastPlays = "";
     }
 }
 
-// reads behavior of user when reacting to wins or losses
+// reads behavior of user when reacting to wins or losses, for some reason .replace isn't a function????
 function userBehavior (winOrLoss){
-    let winOrLoss;
-    let userPlay = lastPicked;
-    let pastRound = i - 1;
-    if (winOrLoss = "w" && userPastPlays.slice(pastRound, i + 1) == userPlay) {
-        return "s"
+    let roundMinus = i - 2;
+    let round = userPastPlays.slice(roundMinus, i);
+    let pastRound = round;
+    let lastPickedPlus = lastPicked + 1;
+    let lastPickedMinus = lastPicked - 1;
+    if (winOrLoss = "w" && userPastPlays.slice(pastRound, i) == lastPicked) {
+        return "The computer detects that you played the same thing after a win"
+    } else if (winOrLoss = "l" && userPastPlays.slice(pastRound, i) == lastPicked) {
+        return "The computer detects that you played the same thing after a loss"
+    } else if (winOrLoss = "t" && userPastPlays.slice(pastRound, i) == lastPicked) {
+        return "The computer detects that you played the same thing after a tie"
+    } else if (winOrLoss = "w" && userPastPlays.slice(pastRound, i) == lastPickedPlus.replace("4", "1")) {
+        return "The computer detects that you played what beats your previous thing after a win"
+    } else if (winOrLoss = "l" && userPastPlays.slice(pastRound, i) == lastPickedPlus.replace("4", "1")) {
+        return "The computer detects that you played what beats your previous thing after a loss"
+    } else if (winOrLoss = "t" && userPastPlays.slice(pastRound, i) == lastPickedPlus.replace("4", "1")) {
+        return "The computer detects that you played what beats your previous thing after a tie"
+    } else if (winOrLoss = "w" && userPastPlays.slice(pastRound, i) == lastPickedMinus.replace("0", "3")) {
+        return "The computer detects that you played what counters what beats your previous thing after a win"
+    } else if (winOrLoss = "l" && userPastPlays.slice(pastRound, i) == lastPickedMinus.replace("0", "3")) {
+        return "The computer detects that you played what counters what beats your previous thing after a loss"
+    } else if (winOrLoss = "t" && userPastPlays.slice(pastRound, i) == lastPickedMinus.replace("0", "3")) {
+        return "The computer detects that you played what counters what beats your previous thing after a tie"
     }
 }
 
+// WIP things end here
 // runs one round of RPS
 function rockPaperScissors (playerSelection, computerSelection) {
     // 1 = rock, 2 = paper, 3 = scissors
@@ -74,15 +92,19 @@ function rockPaperScissors (playerSelection, computerSelection) {
 }
 // runs an ft5 game of RPS
 function runRound () {
-    for (let i = 0; i < 10; i++) {
+    for (i = 0; i < 10; i++) {
       if (i = 0) {
             let computerPick = getComputerChoiceRandom();
             let playerSelection = prompt("Enter 'rock', 'paper', or 'scissors'!").toLowerCase();
             console.log(rockPaperScissors(playerSelection, computerPick))
+            userRecord(lastPicked);
+//            console.log(userBehavior(roundResult));
        } else {
             computerPick = getComputerChoiceLastCounter();
             playerSelection = prompt("Enter 'rock', 'paper', or 'scissors'!").toLowerCase();
             console.log(rockPaperScissors(playerSelection, computerPick))
+            userRecord(lastPicked);
+//            console.log(userBehavior(roundResult));
         }
         if (playerWins > computerWins) {
             console.log("The score is " + playerWins + " to " + computerWins + ". You're in the lead!")
@@ -93,6 +115,7 @@ function runRound () {
         }
         if (playerWins >= 5) {
             console.log("YOU WON!!!");
+            console.log()
             break;
         } else if (computerWins >= 5) {
             console.log("The computer won...");
@@ -119,6 +142,7 @@ let playerWins = 0;
 let computerWins = 0;
 let lastPicked;
 let roundResult;
-let userPastPlays = " ";
+let userPastPlays = "";
+let i = 0
 console.log(runRound());
 console.log("Thanks for playing!");
