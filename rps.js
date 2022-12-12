@@ -56,6 +56,17 @@ function userRecord (input) {
     }
 }
 
+function computerOverarchChoice () {
+    if (roulette() === 1) {
+        return getComputerChoiceLastMatch();
+    } else if (roulette() === 2) {
+        return getComputerChoiceLastRead();
+    } else if (roulette() === 3) {
+        return getComputerChoiceLastCounter();
+    } else if (roulette() === 4) {
+        return getComputerChoiceRandom();
+    }
+}
 // runs one round of RPS
 function rockPaperScissors (playerSelection, computerSelection) {
     // 1 = rock, 2 = paper, 3 = scissors
@@ -88,27 +99,9 @@ function rockPaperScissors (playerSelection, computerSelection) {
 // runs an ft5 game of RPS
 function runRound () {
     for (i = 0; i < 15; i++) {
-      if (roulette() === 1) {
-            let computerPick = getComputerChoiceLastMatch();
-            let playerSelection = prompt("Enter 'rock', 'paper', or 'scissors'!").toLowerCase();
-            console.log(rockPaperScissors(playerSelection, computerPick))
-            userRecord(lastPicked);
-       } else if (roulette() === 2) {
-            computerPick = getComputerChoiceLastCounter();
-            playerSelection = prompt("Enter 'rock', 'paper', or 'scissors'!").toLowerCase();
-            console.log(rockPaperScissors(playerSelection, computerPick))
-            userRecord(lastPicked);
-        } else if (roulette() === 3) {
-            computerPick = getComputerChoiceLastRead();
-            playerSelection = prompt("Enter 'rock', 'paper', or 'scissors'!").toLowerCase();
-            console.log(rockPaperScissors(playerSelection, computerPick))
-            userRecord(lastPicked);
-        } else {
-            let computerPick = getComputerChoiceRandom();
-            let playerSelection = prompt("Enter 'rock', 'paper', or 'scissors'!").toLowerCase();
-            console.log(rockPaperScissors(playerSelection, computerPick))
-            userRecord(lastPicked);
-        }
+        let computerPick = computerOverarchChoice();
+        let playerSelection = prompt("Enter 'rock', 'paper', or 'scissors'!").toLowerCase();
+        console.log(rockPaperScissors(playerSelection, computerPick))
         if (playerWins > computerWins) {
             console.log("The score is " + playerWins + " to " + computerWins + ". You're in the lead!")
         } else if (computerWins > playerWins) {
@@ -140,11 +133,34 @@ function lastPlayed (input){
     return lastPlay
 }
 
+
+const rock = document.querySelector('#rock')
+rock.addEventListener ('click', function(e) {
+    result.textContent = rockPaperScissors ("rock", getComputerChoiceRandom());
+    resultCounter.appendChild(result);
+}); 
+
+const paper = document.querySelector('#paper')
+paper.addEventListener ('click', function(e) {
+    result.textContent = rockPaperScissors ("paper", getComputerChoiceRandom());
+    resultCounter.appendChild(result);
+}); 
+
+const scissors = document.querySelector('#scissors')
+scissors.addEventListener ('click', function(e) {
+    result.textContent = rockPaperScissors ("scissors", getComputerChoiceRandom());
+    resultCounter.appendChild(result);
+}); 
+
+const resultCounter = document.querySelector('#resultcounter');
+const result = document.createElement('div');
+result.classList.add('content');
+
 let playerWins = 0;
 let computerWins = 0;
 let lastPicked;
 let roundResult;
 let userPastPlays = "";
 let i = 0
-console.log(runRound());
+// console.log(runRound());
 console.log("Thanks for playing!");
