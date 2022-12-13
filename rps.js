@@ -136,19 +136,19 @@ function lastPlayed (input){
 
 const rock = document.querySelector('#rock')
 rock.addEventListener ('click', function(e) {
-    result.textContent = rockPaperScissors ("rock", getComputerChoiceRandom());
+    result.textContent = rockPaperScissors ("rock", getComputerChoiceRandom()) + " The score is " + playerWins + " to " + computerWins + "!";
     resultCounter.appendChild(result);
 }); 
 
 const paper = document.querySelector('#paper')
 paper.addEventListener ('click', function(e) {
-    result.textContent = rockPaperScissors ("paper", getComputerChoiceRandom());
+    result.textContent = rockPaperScissors ("paper", getComputerChoiceRandom()) + " The score is " + playerWins + " to " + computerWins + "!";
     resultCounter.appendChild(result);
 }); 
 
 const scissors = document.querySelector('#scissors')
 scissors.addEventListener ('click', function(e) {
-    result.textContent = rockPaperScissors ("scissors", getComputerChoiceRandom());
+    result.textContent = rockPaperScissors ("scissors", getComputerChoiceRandom()) + " The score is " + playerWins + " to " + computerWins + "!";
     resultCounter.appendChild(result);
 }); 
 
