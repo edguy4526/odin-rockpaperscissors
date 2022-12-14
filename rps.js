@@ -63,8 +63,18 @@ function computerOverarchChoice () {
         return getComputerChoiceLastRead();
     } else if (roulette() === 3) {
         return getComputerChoiceLastCounter();
-    } else if (roulette() === 4) {
+    } else {
         return getComputerChoiceRandom();
+    }
+}
+
+function computerTranslation(input){
+    if (input === 1){
+        return "rock";
+    } else if (input === 2){
+        return "paper";
+    } else {
+        return "scissors";
     }
 }
 // runs one round of RPS
@@ -75,24 +85,24 @@ function rockPaperScissors (playerSelection, computerSelection) {
     (computerSelection === 3 && playerSelection === "scissors")) {
         lastPicked = lastPlayed(playerSelection);
         roundResult = "t";
-        return ("It was a tie! The computer picked " + computerSelection + " and you picked " + playerSelection +".");
+        return ("It was a tie! The computer picked " + computerTranslation(computerSelection) + " and you picked " + playerSelection +".");
     } else if ((playerSelection === "rock" && computerSelection == 2 ||
     (playerSelection === "paper" && computerSelection === 3) ||
     (playerSelection === "scissors" && computerSelection === 1))) {
         computerWins++;
         lastPicked = lastPlayed(playerSelection);
         roundResult = "l";
-        return ("You lose! The computer picked " + computerSelection + " and you picked " + playerSelection +".");
+        return ("You lose! The computer picked " + computerTranslation(computerSelection) + " and you picked " + playerSelection +".");
     } else if ((playerSelection === "paper" && computerSelection === 1) ||
     (playerSelection === "scissors" && computerSelection === 2) ||
     (playerSelection === "rock" && computerSelection === 3)) {
         playerWins++
         lastPicked = lastPlayed(playerSelection);
         roundResult = "w";
-        return ("You win! The computer picked " + computerSelection + " and you picked " + playerSelection +".");
+        return ("You win! The computer picked " + computerTranslation(computerSelection) + " and you picked " + playerSelection +".");
     } else {
         console.log("The values were " + computerSelection + " and " + playerSelection);
-        return ("Something is broken");
+        return ("Something is broken.");
     }
 }
 
@@ -136,20 +146,41 @@ function lastPlayed (input){
 
 const rock = document.querySelector('#rock')
 rock.addEventListener ('click', function(e) {
-    result.textContent = rockPaperScissors ("rock", getComputerChoiceRandom()) + " The score is " + playerWins + " to " + computerWins + "!";
+    result.textContent = rockPaperScissors ("rock", computerOverarchChoice()) + " The score is " + playerWins + " to " + computerWins + "!";
     resultCounter.appendChild(result);
+    if (playerWins >= 5) {
+        result.textContent = "YOU WIN!!";
+        resultCounter.appendChild(result);
+    } else if (computerWins >= 5) {
+        result.textContent = "YOU LOSE...";
+        resultCounter.appendChild(result);
+    }
 }); 
 
 const paper = document.querySelector('#paper')
 paper.addEventListener ('click', function(e) {
-    result.textContent = rockPaperScissors ("paper", getComputerChoiceRandom()) + " The score is " + playerWins + " to " + computerWins + "!";
+    result.textContent = rockPaperScissors ("paper", computerOverarchChoice()) + " The score is " + playerWins + " to " + computerWins + "!";
     resultCounter.appendChild(result);
+    if (playerWins === 5) {
+        result.textContent = "YOU WIN!!";
+        resultCounter.appendChild(result);
+    } else if (computerWins === 5) {
+        result.textContent = "YOU LOSE...";
+        resultCounter.appendChild(result);
+    }
 }); 
 
 const scissors = document.querySelector('#scissors')
 scissors.addEventListener ('click', function(e) {
-    result.textContent = rockPaperScissors ("scissors", getComputerChoiceRandom()) + " The score is " + playerWins + " to " + computerWins + "!";
+    result.textContent = rockPaperScissors ("scissors", computerOverarchChoice()) + " The score is " + playerWins + " to " + computerWins + "!";
     resultCounter.appendChild(result);
+    if (playerWins === 5) {
+        result.textContent = "YOU WIN!!";
+        resultCounter.appendChild(result);
+    } else if (computerWins === 5) {
+        result.textContent = "YOU LOSE...";
+        resultCounter.appendChild(result);
+    }
 }); 
 
 const resultCounter = document.querySelector('#resultcounter');
@@ -162,5 +193,3 @@ let lastPicked;
 let roundResult;
 let userPastPlays = "";
 let i = 0
-// console.log(runRound());
-console.log("Thanks for playing!");
